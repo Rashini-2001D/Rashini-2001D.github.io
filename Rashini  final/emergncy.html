@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoAid Emergency - Find Help Now</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #00264d 0%, #003d73 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .emergency-header {
+            background: rgba(255, 99, 71, 0.95);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        .emergency-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .emergency-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            flex: 1;
+            padding: 2rem 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ff6347;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .emergency-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .emergency-btn {
+            background: linear-gradient(135deg, #ff6347 0%, #ff4500 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 1.5rem;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 99, 71, 0.3);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .emergency-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 99, 71, 0.4);
+        }
+
+        .emergency-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .secondary-btn {
+            background: rgba(242, 242, 242, 0.1);
+            border: 2px solid #f2f2f2;
+            color: #f2f2f2;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(242, 242, 242, 0.2);
+            box-shadow: 0 8px 25px rgba(242, 242, 242, 0.2);
+        }
+
+        .location-status {
+            background: rgba(242, 242, 242, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .location-status.active {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+        }
+
+        .quick-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-option {
+            background: rgba(242, 242, 242, 0.1);
+            border: 1px solid rgba(242, 242, 242, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-option:hover {
+            background: rgba(255, 99, 71, 0.2);
+            border-color: #ff6347;
+        }
+
+        .quick-option.selected {
+            background: rgba(255, 99, 71, 0.3);
+            border-color: #ff6347;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .help-section {
+            background: rgba(242, 242, 242, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .help-section h3 {
+            color: #ff6347;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .help-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .help-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(242, 242, 242, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .help-list li:last-child {
+            border-bottom: none;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-searching {
+            background: #ff6347;
+            animation: blink 1s infinite;
+        }
+
+        .status-found {
+            background: #22c55e;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            border-top: 1px solid rgba(242, 242, 242, 0.1);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem 0.5rem;
+            }
+            
+            .logo h2 {
+                font-size: 2rem;
+            }
+            
+            .emergency-btn {
+                padding: 1.2rem;
+                font-size: 1rem;
+            }
+            
+            .quick-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="emergency-header">
+        <h1>🚨 EMERGENCY MODE ACTIVE</h1>
+        <p>Getting you help as fast as possible</p>
+    </div>
+
+    <div class="container">
+        <div class="logo">
+            <h2>AutoAid</h2>
+        </div>
+
+        <div class="location-status" id="locationStatus">
+            <div id="locationText">
+                <span class="status-indicator status-searching"></span>
+                Detecting your location...
+            </div>
+        </div>
+
+        <div class="emergency-actions">
+            <button class="emergency-btn" id="findMechanicBtn">
+                🔧 FIND NEAREST MECHANIC
+            </button>
+            
+            <button class="emergency-btn secondary-btn" id="callTowingBtn">
+                🚛 CALL TOWING SERVICE
+            </button>
+            
+            <button class="emergency-btn secondary-btn" id="emergencyContactBtn">
+                📞 EMERGENCY CONTACT
+            </button>
+        </div>
+
+        <div class="quick-options">
+            <div class="quick-option" data-service="breakdown">
+                <span class="icon">⚠️</span>
+                <div>Car Breakdown</div>
+            </div>
+            <div class="quick-option" data-service="flat-tire">
+                <span class="icon">🛞</span>
+                <div>Flat Tire</div>
+            </div>
+            <div class="quick-option" data-service="battery">
+                <span class="icon">🔋</span>
+                <div>Dead Battery</div>
+            </div>
+            <div class="quick-option" data-service="accident">
+                <span class="icon">💥</span>
+                <div>Accident</div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <h3>While You Wait:</h3>
+            <ul class="help-list">
+                <li>🛡️ Move to a safe location if possible</li>
+                <li>🔺 Turn on hazard lights</li>
+                <li>📱 Keep your phone charged</li>
+                <li>🚗 Stay with your vehicle unless unsafe</li>
+                <li>📍 Note your exact location</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>AutoAid Emergency Service • Available 24/7</p>
+    </div>
+
+    <script>
+        let selectedService = null;
+        let userLocation = null;
+
+        // Simulate location detection
+        function detectLocation() {
+            const locationStatus = document.getElementById('locationStatus');
+            const locationText = document.getElementById('locationText');
+            
+            setTimeout(() => {
+                // Simulate successful location detection
+                locationText.innerHTML = `
+                    <span class="status-indicator status-found"></span>
+                    Location found: Current Position
+                `;
+                locationStatus.classList.add('active');
+                userLocation = { lat: 6.9271, lng: 79.8612 }; // Colombo coordinates
+                
+                // Enable the find mechanic button
+                document.getElementById('findMechanicBtn').style.opacity = '1';
+            }, 2000);
+        }
+
+        // Handle service selection
+        function setupServiceSelection() {
+            const options = document.querySelectorAll('.quick-option');
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove previous selection
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    // Add selection to clicked option
+                    option.classList.add('selected');
+                    selectedService = option.dataset.service;
+                    
+                    // Update button text based on selection
+                    updateButtonText();
+                });
+            });
+        }
+
+        function updateButtonText() {
+            const btn = document.getElementById('findMechanicBtn');
+            const serviceTexts = {
+                'breakdown': '🔧 FIND BREAKDOWN SERVICE',
+                'flat-tire': '🛞 FIND TIRE SERVICE',
+                'battery': '🔋 FIND BATTERY SERVICE',
+                'accident': '💥 FIND EMERGENCY HELP'
+            };
+            
+            if (selectedService && serviceTexts[selectedService]) {
+                btn.textContent = serviceTexts[selectedService];
+            }
+        }
+
+        // Handle emergency actions
+        function setupEmergencyActions() {
+            document.getElementById('findMechanicBtn').addEventListener('click', () => {
+                if (!userLocation) {
+                    alert('Please wait for location detection to complete.');
+                    return;
+                }
+                
+                const serviceType = selectedService || 'general';
+                showSearchingState();
+                
+                // Simulate finding mechanics
+                setTimeout(() => {
+                    showMechanicsFound(serviceType);
+                }, 3000);
+            });
+
+            document.getElementById('callTowingBtn').addEventListener('click', () => {
+                if (confirm('This will call the nearest towing service. Continue?')) {
+                    window.location.href = 'tel:+94112345678';
+                }
+            });
+
+            document.getElementById('emergencyContactBtn').addEventListener('click', () => {
+                const contact = prompt('Enter emergency contact number:');
+                if (contact) {
+                    window.location.href = `tel:${contact}`;
+                }
+            });
+        }
+
+        function showSearchingState() {
+            const btn = document.getElementById('findMechanicBtn');
+            btn.innerHTML = '🔍 SEARCHING NEARBY...';
+            btn.style.background = 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)';
+            btn.disabled = true;
+        }
+
+        function showMechanicsFound(serviceType) {
+            const container = document.querySelector('.container');
+            
+            // Create results section
+            const resultsSection = document.createElement('div');
+            resultsSection.innerHTML = `
+                <div style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.5); border-radius: 12px; padding: 1.5rem; margin-top: 1rem;">
+                    <h3 style="color: #22c55e; margin-bottom: 1rem;">✅ Found 3 Available Services</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                            <strong>Quick Fix Garage</strong> • 0.8 km away<br>
+                            <span style="font-size: 0.9rem; opacity: 0.8;">⭐ 4.8 • Arriving in 15 min • Rs.250</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                            <strong>AutoCare Pro</strong> • 1.2 km away<br>
+                            <span style="font-size: 0.9rem; opacity: 0.8;">⭐ 4.6 • Arriving in 20 min •Rs.300</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                            <strong>24/7 Mobile Mechanic</strong> • 1.5 km away<br>
+                            <span style="font-size: 0.9rem; opacity: 0.8;">⭐ 4.9 • Arriving in 25 min • Rs.150</span>
+                        </div>
+                    </div>
+                    <button style="width: 100%; background: #22c55e; border: none; border-radius: 8px; padding: 1rem; color: white; font-weight: 600; margin-top: 1rem; cursor: pointer;">
+                        📞 CALL QUICK FIX GARAGE NOW
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(resultsSection);
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize everything
+        function init() {
+            detectLocation();
+            setupServiceSelection();
+            setupEmergencyActions();
+        }
+
+        // Start the app
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
